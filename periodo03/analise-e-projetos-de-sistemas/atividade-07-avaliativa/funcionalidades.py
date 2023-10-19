@@ -219,15 +219,20 @@ def remover_conta():
         # Limpar Tela
         os.system('clear')
         
-        # Chamando o método para cadastrar um Cliente
-        foi_possivel_apagar = db.apagar_cliente(codigo_conta_cliente)
-        if foi_possivel_apagar == None:
+        # Trazendo a informação se existe usuário
+        foi_possivel_apagar = db.buscar_clientes_por_codigo(int(codigo_conta_cliente))
+        (codigo_cliente, nome_cliente, saldo_cliente) = foi_possivel_apagar[0]
+        
+        # Chamando o método para apagar um Cliente
+        db.apagar_cliente(int(codigo_conta_cliente))
+        
+        if codigo_cliente is not None:
             print(f"+{'-' * tam}+")
-            print(f"|{'ESSA CONTA NÃO EXISTE':^{tam}}|")
+            print(f"|{'CONTA APAGADA COM SUCESSO':^{tam}}|")
             print(f"+{'-' * tam}+\n")
         else:
             print(f"+{'-' * tam}+")
-            print(f"|{'CONTA APAGADA COM SUCESSO':^{tam}}|")
+            print(f"|{'ESSA CONTA NÃO EXISTE':^{tam}}|")
             print(f"+{'-' * tam}+\n")
     except:
         os.system('clear')
