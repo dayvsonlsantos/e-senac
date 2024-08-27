@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labirinto</title>
+    <script src="./script.js"></script>
+    <style>
+        /* Estiliza o labirinto como uma grade */
+        .maze {
+            display: grid;
+            grid-template-columns: repeat(5, 30px); /* 5 colunas de 30px */
+            gap: 1px; /* Espaço entre as células */
+        }
+        /* Estilo base para as células */
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border: 1px solid black;
+        }
+        /* Estilo para células que representam paredes */
+        .wall {
+            background-color: black;
+        }
+        /* Estilo para células que representam o caminho encontrado */
+        .path {
+            background-color: yellow;
+        }
+        /* Estilo para a célula inicial */
+        .start {
+            background-color: green;
+        }
+        /* Estilo para a célula final */
+        .end {
+            background-color: red;
+        }
+        /* Estilo para o container dos botões */
+        .button-container {
+            margin: 10px 0;
+        }
+        /* Estilo para o container dos campos de entrada */
+        .input-container {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Labirinto</h1>
+    <div id="maze" class="maze"></div>
+
+    <div class="input-container">
+        <label for="start">Início (r,c):</label>
+        <input type="text" id="start" value="0,0">
+        <label for="goal">Objetivo (r,c):</label>
+        <input type="text" id="goal" value="4,4">
+    </div>
+
+    <div class="button-container">
+        <button onclick="updateMaze()">Atualizar Labirinto</button>
+        <button onclick="runAlgorithm('bfs')">BFS</button>
+        <button onclick="runAlgorithm('dfs')">DFS</button>
+        <button onclick="runAlgorithm('greedy')">Greedy</button>
+        <button onclick="runAlgorithm('aStar')">A*</button>
+    </div>
+    
+    <script src="maze.js"></script>
+</body>
+</html>
