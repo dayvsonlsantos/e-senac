@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor Virtual</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Professor Virtual</h1>
+        <form id="questionForm" class="space-y-4">
+            <div>
+                <label for="question" class="block text-sm font-medium text-gray-700">Digite sua pergunta:</label>
+                <input type="text" id="question" name="question" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <button type="submit" id="submitButton"
+                    class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Enviar
+                </button>
+            </div>
+        </form>
+        <div id="loading" class="hidden mt-4 text-center text-indigo-600">Processando...</div>
+        <h2 class="text-xl font-semibold text-gray-800 mt-6">Resposta:</h2>
+        <div id="responseContainer" class="mt-2 max-h-48 overflow-y-auto border border-gray-300 rounded-md p-3 bg-gray-50">
+            <p id="response" class="text-gray-700"></p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#questionForm").on("submit", function (e) {
+                e.preventDefault();
+
+                // Desativar o botão de envio e mostrar o indicador de loading
+                $("#submitButton").prop("disabled", true).addClass("opacity-50 cursor-not-allowed");
+                $("#loading").removeClass("hidden");
+                $("#response").text(""); // Limpar resposta anterior
+
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $("#response").text(response.response);
+                    },
+                    error: function () {
+                        $("#response").text("Erro ao enviar a pergunta. Tente novamente.");
+                    },
+                    complete: function () {
+                        // Reativar o botão de envio e esconder o indicador de loading
+                        $("#submitButton").prop("disabled", false).removeClass("opacity-50 cursor-not-allowed");
+                        $("#loading").addClass("hidden");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
